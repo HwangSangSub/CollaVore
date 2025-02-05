@@ -1,8 +1,3 @@
-<div class="page-wrapper" xmlns:th="https://www.thymeleaf.org/"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{common/layouts/default_layout}"
-	layout:fragment="Content">
-	<style>
 /* 페이지 기본 스타일 */
 .body-page-wrapper {
 	padding: 20px;
@@ -263,45 +258,3 @@ button:active {
 .none {
 	display: none;
 }
-</style>
-
-	<div class="body-page-wrapper">
-		<div class="purple-background-container">
-			<div class="breadcrumb">
-				<div class="breadcrumb-left">
-					<h4>전자결재 템플릿 관리</h4>
-					<p>전자결재 템플릿 관리 페이지 입니다.</p>
-				</div>
-				<div class="breadcrumb-right">
-					<span>템플릿 관리 > 전자결재 템플릿 관리</span>
-				</div>
-			</div>
-
-			<div class="container-fluid">
-				<div class="row">
-					<th:block th:each=" info : ${tempInfo}">
-						<div class="col-md-4 eatNo" th:data-no="${info.eatNo}">
-							<div class="card">
-								<div class="card-body">
-									<input type="hidden" value="info.eatNo">
-									<h4 class="card-title">[[${info.title}]]</h4>
-									<h6 class="card-title" style="text-align: right;">
-									[[${#dates.format(info.regDate,'yyyy-MM-dd')}]]</h6>
-								</div>
-							</div>
-						</div>
-					</th:block>
-				</div>
-			</div>
-			
-		</div>
-	</div>
-</div>
-
- <script>
-	$('.eatNo').on('click', function() {
-		let eatNo = event.currentTarget/*이벤트가 걸려 있는 타겟*/.dataset.no;
-		let url = '/approvals/readTempInfo?eatNo=' + eatNo;
-		location.href = url
-	})
- </script>

@@ -111,13 +111,12 @@ public class ApprovalsController {
 	// 전자결재 생성 폼
 	@GetMapping("/createApprForm")
 	public String createApprovals(Model model, HrmVO hrmVO,  HttpSession session ) {
-		int userEmpNo = (Integer) session.getAttribute("userEmpNo");
-		List<ApprovalstempVO> tempInfo = approvalsService.apprTempList();
-		//부서 테이블 조회
-		List <HrmVO> depts = approvalsService.depts();
-		model.addAttribute("depts", depts);
-		model.addAttribute("tempInfo", tempInfo);
-		model.addAttribute("userEmpNo", userEmpNo);
+		int userEmpNo = (Integer) session.getAttribute("userEmpNo"); //세션에 접속한 사원번호를 userEmpNo 저장
+		List<ApprovalstempVO> tempInfo = approvalsService.apprTempList(); //저장된 템플릿을 호출
+		List <HrmVO> depts = approvalsService.depts();//부서 테이블 조회
+		model.addAttribute("depts", depts); //model을 통해 부서 테이블 정보를 넘김
+		model.addAttribute("tempInfo", tempInfo); //model을 통해 템플릿 정보를 넘김
+		model.addAttribute("userEmpNo", userEmpNo); //model을 통해 세션에 접속한 사원번호를 넘김
 		return "approvals/createApprovalForm";
 	}
 	
@@ -134,9 +133,9 @@ public class ApprovalsController {
 	// 전자결재 생성 시, 데이터를 받는 곳
 	@PostMapping("/createAppr")
 	public String createAppr(ApprovalsVO apprVO) {
-		approvalsService.insertApprsEa(apprVO);
+		approvalsService.insertApprsEa(apprVO); //전자결재 데이터 삽입
 		if (apprVO.getEaNo() >= 0) {
-			int resultOfEar = approvalsService.insertApprsEar(apprVO); // 전자결재 //원래 없던 ea가 들어감
+			int resultOfEar = approvalsService.insertApprsEar(apprVO); //결재자 데이터 삽입
 			if (resultOfEar >= 0) {
 				return "redirect:/approvals/myApprList/a5";
 			}
@@ -148,10 +147,10 @@ public class ApprovalsController {
 	@GetMapping("/myApprList/{approvalStatus}")
 	public String myApprList(ApprovalsVO apprVO, @PathVariable String approvalStatus, Model model,
 			HttpSession session) {
-		int userEmpNo = (Integer) session.getAttribute("userEmpNo");
-		apprVO.setUserEmpNo(userEmpNo);
-		List<ApprovalsVO> apprList = approvalsService.myApprList(apprVO);
-		model.addAttribute("sessionUserEmpNo", userEmpNo);
+		int userEmpNo = (Integer) session.getAttribute("userEmpNo"); //로그인한 사원 번호를 userEmpNo에 저장
+		apprVO.setUserEmpNo(userEmpNo); //VO의 UserEmpNo에 userEmpNo를 저장
+		List<ApprovalsVO> apprList = approvalsService.myApprList(apprVO); // 
+		model.addAttribute("sessionUserEmpNo", userEmpNo); //model을 통해 로그인한 사원 번호를 전달
 		model.addAttribute("myApprList", apprList);
 		model.addAttribute("approvalStatus", approvalStatus);
 		return "approvals/onProcess";
@@ -206,7 +205,8 @@ public class ApprovalsController {
 	        } else {
 	            if (i == 0) {
 	                // 첫 번째 결재자는 approverStatus가 b1일 때만 버튼 활성화
-	                buttonEnabled = "b1".equals(approverStatus) && userEmpNo == ((Number) approver.get("approverEmpNo")).intValue();
+	                buttonEnabled = "b1".equals(approverStatus) && userEmpNo == //
+	                		((Number) approver.get("approverEmpNo")).intValue();
 	            } else {
 	                // 두 번째 결재자부터는 이전 결재자들이 모두 승인(b3) 또는 반려(b2) 상태일 때만 버튼 활성화
 	                previousApprovedOrRejected = true;
@@ -217,7 +217,8 @@ public class ApprovalsController {
 	                        break;
 	                    }
 	                }
-	                buttonEnabled = previousApprovedOrRejected && "b1".equals(approverStatus) && userEmpNo == ((Number) approver.get("approverEmpNo")).intValue();
+	                buttonEnabled = previousApprovedOrRejected && "b1".equals(approverStatus) && userEmpNo == //
+	                		((Number) approver.get("approverEmpNo")).intValue();
 	            }
 	        }
 

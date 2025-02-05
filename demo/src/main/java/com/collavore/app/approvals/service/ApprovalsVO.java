@@ -25,7 +25,7 @@ public class ApprovalsVO {
 		//결재자 테이블 필드
 	List<ApprovalsVO> approvers = new ArrayList<>();
 	private Integer empNo;	//결재자 사번
-	private Integer sort;		//결재 순서
+	private Integer sort;   //결재 순서
 	private String status;	//결재자의 결재 상태
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date procDate;  //결재 상태 처리일
