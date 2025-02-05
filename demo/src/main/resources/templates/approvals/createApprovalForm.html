@@ -2,144 +2,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{common/layouts/default_layout}"
 	layout:fragment="Content">
-	<style>
-/* 페이지 기본 스타일 */
-.body-page-wrapper {
-	padding: 20px;
-	background-color: #f9f9f9;
-	align-items: center;
-}
-
-/* Breadcrumb 스타일 */
-.breadcrumb {
-	background-color: #ffffff;
-	padding: 10px 20px;
-	border-radius: 10px;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-	height: 70px;
-	justify-content: space-between;
-	align-items: center;
-	margin-bottom: 20px;
-	color: #333;
-	position: relative;
-}
-
-.breadcrumb h4 {
-	margin: 0;
-	font-size: 24px;
-	font-weight: bold;
-	color: #333;
-}
-
-.breadcrumb-left {
-	display: flex; /* flexbox로 요소 정렬 */
-	flex-direction: column; /* 세로로 배치 */
-	justify-content: center; /* 세로 중앙 정렬 */
-}
-
-.breadcrumb-left h4 {
-	font-size: 22px;
-	font-weight: bold;
-	margin: 0; /* 기본 마진 제거 */
-	margin-top: 2px;
-}
-
-.breadcrumb-left p {
-	font-size: 14px;
-	color: #666;
-	margin-top: 2px;
-	margin-bottom: 0;
-}
-
-.breadcrumb-right span {
-	font-size: 14px;
-	color: #999;
-	white-space: nowrap;
-	position: relative;
-	top: -12px;
-}
-
-.card_memberInsert {
-	background-color: #ffffff;
-	padding: 20px;
-	border-radius: 10px;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-	margin-bottom: 20px;
-	display: flex;
-	flex-direction: column;
-}
-
-.insert-btn {
-	display: flex;
-	justify-content: flex-end; /* 오른쪽으로 정렬 */
-	margin-right: 20px; /* 필요에 따라 여백 조정 */
-}
-
-button {
-	padding: 5px 10px;
-	margin-left: 5px;
-	background-color: #9b8df6;
-	color: white;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
-	font-size: 14px;
-	transition: background-color 0.3s ease;
-}
-
-/* 마우스 호버 시 효과 */
-button:hover {
-	background-color: #5a4bcf;
-}
-
-/* 추가적인 버튼 스타일링 */
-button:active {
-	background-color: #4839a9;
-}
-
-/* 에러 메시지 스타일 */
-.error {
-	border-color: red;
-}
-
-/* 부모 요소에 relative를 설정 */
-.form-group {
-	position: relative;
-}
-
-/* 아이콘을 입력 필드 옆으로 배치 */
-.error-icon {
-	color: red;
-	font-size: 24px;
-	display: inline-block;
-	position: absolute; /* 절대 위치 */
-	top: 50%; /* 입력 필드의 중간에 위치하도록 */
-	transform: translateY(-50%); /* 수직으로 중앙 정렬 */
-	right: -20px; /* 입력 필드의 오른쪽 끝에서 약간 떨어지게 */
-	z-index: 1; /* 겹치지 않도록 설정 */
-}
-
-.error-message {
-	color: red;
-	font-size: 12px;
-	margin-top: 5px;
-}
-
-/* 필수 입력값 누락 시 아이콘 */
-.required-field {
-	border: 2px solid red;
-}
-
-.field-icon {
-	color: red;
-	margin-left: 5px;
-}
-/*
-#content + iframe {
-	height : 500px !important;
-}
-*/
-</style>
+<link rel="stylesheet" href="\css\approvals\createApprovalForm.css" type="text/css">
 	<div class="body-page-wrapper">
 		<div class="purple-background-container">
 			<div class="breadcrumb">
@@ -219,7 +82,6 @@ button:active {
 										</tr>
 									</tbody>
 								</table>
-
 								<input type="hidden" name="approvers[0].empNo" value="">
 								<input type="hidden" name="approvers[1].empNo" value="">
 								<input type="hidden" name="approvers[2].empNo" value="">
@@ -274,7 +136,7 @@ button:active {
 	<!-- 모달 -->
 	<div class="modal fade" id="approversSelect" tabindex="-1"
 		aria-labelledby="approversModalLabel" aria-hidden="true">
-		<!-- 선택한 option의 seq를 저장하기 위한 태그 -->
+		<!-- 선택한 버튼의 seq를 저장하기 위한 태그 -->
 		<input type="hidden" id="seq">
 		<!-- --------------------------------- -->
 		<div class="modal-dialog" style="height: 500px;">
@@ -332,31 +194,27 @@ button:active {
 	// SmartEditor 참조를 위한 배열
 	var oEditors = [];
 	function smartEditor() {
-		console.log("Naver SmartEditor");
 		nhn.husky.EZCreator.createInIFrame({
 			oAppRef : oEditors,
 			elPlaceHolder : "content",
 			sSkinURI : "/smarteditor/SmartEditor2Skin.html",
 			fCreator : "createSEditor2"
 		});
-	}
+	 }
 
 //템플릿에 저장되어 있는 data 가지고 오기
 	$(document).ready(function() {
 		smartEditor();
 				// 템플릿 선택 시 내용 불러오기
-				$("#selectContent").on("change",
-						function(event) {
+				$("#selectContent").on("change", function(event) {
 							var selectedVal = $(this).val();
 							var eatNo = $("#eatNo").val(selectedVal);
 							$.ajax({
 								url : `/approvals/temp?eatNo=` + selectedVal,
 								type : 'GET',
 								success : function(response) {
-									oEditors.getById["content"].exec(
-											"UPDATE_CONTENTS_FIELD", []);
-									oEditors.getById["content"].exec("SET_IR",
-											[ response.content ]);
+									oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
+									oEditors.getById["content"].exec("SET_IR", [ response.content ]);
 									$('#content').val(response.content);
 								},
 								error : function(xhr, status, error) {
@@ -375,6 +233,7 @@ button:active {
 //end of 템플릿에 저장되어 있는 data 가지고 오기
 
 <!-- 모달창 여닫는 script -->
+
 $(document).ready(
 		function() {
 			const modal = $("#apprModal");
@@ -387,7 +246,6 @@ $(document).ready(
 					});
 			// 모달 닫기 버튼 클릭 시 이벤트 처리
 			closeBtn.on("click", function() {
-				https: //hayleyun.tistory.com/entry/HTML-모달창Modal-만들기 5/9
 				modal.css("display", "none");
 				$("body").removeClass("modal-open"); // 스크롤 막는 클래스 제거
 			});
@@ -399,19 +257,16 @@ $(document).ready(
 				}
 			});
 		});
-	//modal에서 선택한 결재자 정보를 부모 페이지에 넘기는 기능
-	  $(document).ready(function() {
+		
         // 부서 선택 시, 해당 부서에 소속된 결재자 목록을 동적으로 불러오는 AJAX
+	  $(document).ready(function() {
         $('#selectDept').on('change', function() {
             var deptNo = $(this).val(); // 선택된 부서 번호
-
             // 부서 번호가 없으면 리턴
             if (!deptNo) return;
-
             // 결재자 선택 드롭다운 초기화
             $('#selectApprovers').empty();
             $('#selectApprovers').append('<option selected value="" disabled>==결재자 선택==</option>');
-
             // AJAX 요청: 해당 부서의 결재자 목록을 받아옴
             $.ajax({
                 url: '/approvals/selectEmps/' + deptNo,
@@ -424,7 +279,8 @@ $(document).ready(
                     // 응답 받은 결재자 목록을 드롭다운에 추가
                     $.each(response, function(index, employeesInfo) {
                         $('#selectApprovers').append(
-                            `<option value="${employeesInfo.empNo}">${employeesInfo.empName} / ${employeesInfo.posiName}</option>`
+                            `<option value="${employeesInfo.empNo}">${employeesInfo.empName}
+                            / ${employeesInfo.posiName}</option>`
                         );
                     });
                 },
@@ -437,17 +293,17 @@ $(document).ready(
             });
         });
     });
+        
+	//modal에서 선택한 결재자 정보를 부모 페이지에 넘기는 기능
  $(document).ready(function(){
     $("#modalSubmit").on("click", function(e){
         e.preventDefault();
         var seq = $('#seq').val();
         var selectedApprover = $("#selectApprovers option:checked").text();
         var selectedApproversEmp = $("#selectApprovers option:checked").val();
-        
-        // 선택된 approver 이름과 정보를 분리
+        // 선택된 approver 이름과 직함을 분리
         var selectedApproversName = selectedApprover.split('/')[0];
         var selectedApproversInfo = selectedApprover.split('/')[1];
-        
         // approver의 empNo 값 설정 및 초기화 조건
         if (selectedApproversEmp) {
             $(`[name="approvers[${seq-1}].empNo"]`).val(selectedApproversEmp);
@@ -455,7 +311,6 @@ $(document).ready(
             // selectedApproversEmp가 빈 값인 경우 부모 값 초기화
             $(`[name="approvers[${seq-1}].empNo"]`).val('');
         }
-        
         // 이름과 정보 설정 및 초기화
         if (selectedApproversEmp) {
             $('#apprerTable tbody tr').eq(0).children().eq(seq).find('span').html(selectedApproversName);
@@ -465,15 +320,13 @@ $(document).ready(
             $('#apprerTable tbody tr').eq(0).children().eq(seq).find('span').html('');
             $('#apprerTable tbody tr').eq(1).children().eq(seq).find('span').html('');
         }
-
         // 초기 상태로 복귀
         $('#selectApprovers').prop('selectedIndex', 0);
         $('#approversSelect').modal('hide');
-        
         $('#selectDept').prop('selectedIndex', 0);
     });
-});
-	//
+ });
+	
 //기안버튼을 누르면 form의 데이터를 전부 넘김
 function submitPost(event) {
     event.preventDefault(); // 폼 제출 방지
@@ -491,7 +344,6 @@ function submitPost(event) {
         $('#approvalTitle').focus();
         return;
     }
-
     // approvers[].empNo 배열 값 검증
     var approvers = $('input[name^="approvers["][name$=".empNo"]').map(function() { return $(this).val(); }).get();
     if (approvers.length === 0 || approvers.every(val => !val)) {
@@ -501,7 +353,6 @@ function submitPost(event) {
 			});
         return;
     }
-
     // content 검증
     oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []); // content 업데이트
     var content = $('#content').val();
@@ -513,12 +364,9 @@ function submitPost(event) {
         oEditors.getById["content"].exec("FOCUS");
         return;
     }
-
     // 모든 검증을 통과하면 폼 제출
     insertForm.submit(); // 폼 제출			
 }
-
-
 //end of 기안버튼을 누르면 form의 데이터를 전부 넘김
 </script>
 </div>

@@ -159,7 +159,8 @@ button:active {
 						name="updateForm">
 						<!-- 세큐리티 cors를 방지하는 기능  -->
 						<input type="hidden" name="${_csrf.parameterName}"
-							value="${_csrf.token}" /> <input type="hidden" id="eatNo"
+							value="${_csrf.token}" />
+							<input type="hidden" id="eatNo"
 							name="eatNo" th:value="${approvals.eatNo}" /> <input
 							type="hidden" name="drafterEmpNo" value=""> <input
 							type="hidden" name="eaNo" th:value="${approvals.eaNo}">

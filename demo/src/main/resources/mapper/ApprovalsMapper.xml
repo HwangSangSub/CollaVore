@@ -69,20 +69,20 @@
 			FROM approvals
 		</selectKey>
 		INSERT INTO approvals(
-		approvals.ea_no
-		,title
-		,eat_no
-		,approvals.reg_date
-		,content
-		,emp_no
-		)
+		                       approvals.ea_no
+		                      ,title
+		                      ,eat_no
+	                          ,approvals.reg_date
+		                      ,content
+		                      ,emp_no
+		                     )
 		VALUES (
-		#{eaNo}
-		,#{title}
-		,#{eatNo}
-		,sysdate
-		,#{content}
-		,#{drafterEmpNo}
+		         #{eaNo}
+		        ,#{title}
+		        ,#{eatNo}
+	      	    ,sysdate
+		        ,#{content}
+		        ,#{drafterEmpNo}
 		)
 	</insert>
 	<!-- -->
@@ -103,17 +103,17 @@
 				      approvers.empNo != ''
 				     ">
 				INTO approvers (
-				ear_no
-				,ea_no
-				,emp_no
-				,sort
+				                 ear_no
+				                ,ea_no
+				                ,emp_no
+				                ,sort
 				)
 				VALUES (
-				FIND_APPROVERS_SEQ()
-				,#{approvers.eaNo}
-				,#{approvers.empNo}
-				,#{approvers.sort}
-				)
+				        FIND_APPROVERS_SEQ()
+				        ,#{approvers.eaNo}
+				        ,#{approvers.empNo}
+				        ,#{approvers.sort}
+			           )
 			</if>
 		</foreach>
 		SELECT * FROM dual
@@ -222,7 +222,7 @@
 	<select id="readApprovers" parameterType="Integer"
 		resultType="map">
 		SELECT
-				r.status as "approverStatus"
+				 r.status as "approverStatus"
 		     	,e.name as "approverName"
 				,e.emp_no as "approverEmpNo"
 				,p.name as "positionTitle"
@@ -266,11 +266,19 @@
 	<!-- 전자결재 삭제 -->
 	<select id="deleteApproval" statementType="CALLABLE"
 		resultType="Integer">
-		{call DELETE_EANO(#{eaNo}, #{resultCode, mode=OUT,
-		jdbcType=INTEGER})}
+		{call DELETE_EANO(#{eaNo}, #{resultCode, mode=OUT, jdbcType=INTEGER})}
 	</select>
 	<!-- -->
 
+	<!-- 부서 테이블 조회  -->
+	<select id="depts" resultType="HrmVO" parameterType="int">
+		SELECT dept_no
+			   ,name as "deptName"
+		FROM departments
+        ORDER BY dept_no
+	</select>
+	<!--  -->
+	
 	<!-- 인사 테이블 조회 -->
 	<select id="employees" parameterType="map" resultType="HrmVO">
 		SELECT
@@ -289,15 +297,6 @@
 		ORDER by p.posi_no
 	</select>
 	<!-- -->
-	
-	<!-- 부서 테이블 조회  -->
-	<select id="depts" resultType="HrmVO" parameterType="int">
-		SELECT dept_no
-			   ,name as "deptName"
-		FROM departments
-        ORDER BY dept_no
-	</select>
-	<!--  -->
 	
 	<!-- 삭제 -->
 	<delete id="deleteApprover" parameterType="int">

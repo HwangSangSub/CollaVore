@@ -15,4 +15,5 @@ public class ApprovalstempVO {//전자결재 템플릿 테이블
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date regDate;	//템플릿 생성 날짜
 }
+
 //1번

@@ -158,10 +158,10 @@
 	<update id="updateSchsInfo" parameterType="SchsVO">
 		UPDATE schs
 		SET title = #{title},
-		start_date = TO_TIMESTAMP(#{formattedStartDate, jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI'),
-        end_date = TO_TIMESTAMP(#{formattedEndDate, jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI'),
-		cal_no = #{calNo},   <!-- cal_no가 올바르게 설정되었는지 확인 -->
-		is_alarm = #{isAlarm}
+		    start_date = TO_TIMESTAMP(#{formattedStartDate, jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI'),
+            end_date = TO_TIMESTAMP(#{formattedEndDate, jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI'),
+		    cal_no = #{calNo},   <!-- cal_no가 올바르게 설정되었는지 확인 -->
+		    is_alarm = #{isAlarm}
 		WHERE sch_no = #{schNo}
 	</update>
 

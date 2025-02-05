@@ -1,9 +1,3 @@
-<div class="page-wrapper" xmlns:th="https://www.thymeleaf.org/"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{common/layouts/default_layout}"
-	layout:fragment="Content">
-
-	<style>
 /* 페이지 기본 스타일 */
 .body-page-wrapper {
 	padding: 20px;
@@ -140,69 +134,3 @@ button:active {
 	height : 500px !important;
 }
 */
-</style>
-
-	<div class="body-page-wrapper">
-		<div class="purple-background-container">
-			<div class="breadcrumb">
-				<div class="breadcrumb-left">
-					<h4>전자결재 템플릿 상세</h4>
-					<p>전자결재 템플릿 상세 페이지 입니다.</p>
-				</div>
-				<div class="breadcrumb-right">
-					<span>템플릿 관리 > 전자결재 템플릿 상세</span>
-				</div>
-			</div>
-			
-			<div class="card_memberInsert">
-				<div class="col-md-9">
-					<div class="form-group row">
-						<label for="title"
-							class="col-sm-3 text-end control-label col-form-label">템플릿
-							명</label>
-						<div class="col-sm-9">
-							<input type="text" class="form-control" id="title" name="title"
-								placeholder="이름" th:value="${tempInfo.title}" readonly />
-						</div>
-					</div>
-					<div class="form-group row">
-						<label for="content"
-							class="col-sm-3 text-end control-label col-form-label">내용</label>
-						<div class="col-sm-9">
-							<div th:fragment="contents" th:utext="${tempInfo.content}"></div>
-						</div>
-					</div>
-					
-					<!-- 등록 버튼 -->
-					<div class="insert-btn">
-						<button type="button" class="btn btn-danger" id="deleteButton"
-							th:onclick="|location.href='@{/approvals/deleteTemp(eatNo=${tempInfo.eatNo})}'|">템플릿
-							삭제</button>
-						<button type="button" class="btn btn-warning"
-							th:onclick="|location.href='@{/approvals/updateTempForm(eatNo=${tempInfo.eatNo})}'|">템플릿
-							수정</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
-<script type="text/javascript">
-	$(deleteButton).on("click", function() {
-		Swal.fire({
-            title: "정말 삭제하시겠습니까?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "예",
-            cancelButtonText:"아니요"
-          }).then((result) => {
-            if (result.isConfirmed) {
-                // 아작스
-    			document.form.submit();
-            }
-       });
-	})
-</script>
