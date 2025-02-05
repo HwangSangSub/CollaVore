@@ -2,6 +2,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{common/layouts/default_layout}"
 	layout:fragment="Content">
+<script src="/static/dist/js/smarteditor.js"></script>
 <link rel="stylesheet" href="\css\approvals\createApprovalForm.css" type="text/css">
 	<div class="body-page-wrapper">
 		<div class="purple-background-container">
@@ -191,17 +192,6 @@
 	<!-- ------------------------------------- -->
 	<script>
 	const userEmpNo = '[[${session.userEmpNo}]]';
-	// SmartEditor 참조를 위한 배열
-	var oEditors = [];
-	function smartEditor() {
-		nhn.husky.EZCreator.createInIFrame({
-			oAppRef : oEditors,
-			elPlaceHolder : "content",
-			sSkinURI : "/smarteditor/SmartEditor2Skin.html",
-			fCreator : "createSEditor2"
-		});
-	 }
-
 //템플릿에 저장되어 있는 data 가지고 오기
 	$(document).ready(function() {
 		smartEditor();
